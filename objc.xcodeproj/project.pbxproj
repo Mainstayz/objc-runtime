@@ -944,7 +944,7 @@
 				TargetAttributes = {
 					30466D8321B665A500DA7B9D = {
 						CreatedOnToolsVersion = 10.1;
-						DevelopmentTeam = LY6BSMT7G9;
+						DevelopmentTeam = PXL86E7953;
 						ProvisioningStyle = Automatic;
 					};
 					837F67A81A771F63004D34FA = {
@@ -1373,7 +1373,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = LY6BSMT7G9;
+				DEVELOPMENT_TEAM = PXL86E7953;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1392,6 +1392,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1428,7 +1429,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = LY6BSMT7G9;
+				DEVELOPMENT_TEAM = PXL86E7953;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1441,6 +1442,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
