@@ -724,10 +724,19 @@ class list_array_tt {
             // many lists -> many lists
             uint32_t oldCount = array()->count;
             uint32_t newCount = oldCount + addedCount;
+            
+#pragma mark  方法列表重新申请空间
             setArray((array_t *)realloc(array(), array_t::byteSize(newCount)));
             array()->count = newCount;
+            /*
+             原型：void *memmove( void* dest, const void* src, size_t count );
+             头文件：<string.h>
+             功能：由src所指内存区域复制count个字节到dest所指内存区域。
+             */
+#pragma mark 先将旧的方法搬到数组后面
             memmove(array()->lists + addedCount, array()->lists, 
                     oldCount * sizeof(array()->lists[0]));
+#pragma mark 新的方法插在前面
             memcpy(array()->lists, addedLists, 
                    addedCount * sizeof(array()->lists[0]));
         }
@@ -737,6 +746,8 @@ class list_array_tt {
         } 
         else {
             // 1 list -> many lists
+            // 想将旧方法，移动到 --> 后面
+            // 新方法移动到前面
             List* oldList = list;
             uint32_t oldCount = oldList ? 1 : 0;
             uint32_t newCount = oldCount + addedCount;
