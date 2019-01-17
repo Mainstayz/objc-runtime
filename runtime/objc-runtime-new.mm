@@ -719,6 +719,8 @@ prepareMethodLists(Class cls, method_list_t **addedLists, int addedCount,
     if (addedCount == 0) return;
 
     // Don't scan redundantly
+    // rr   release / retain ....
+    // awz  allocWithzone
     bool scanForCustomRR = !cls->hasCustomRR();
     bool scanForCustomAWZ = !cls->hasCustomAWZ();
 
@@ -759,6 +761,7 @@ prepareMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 // Attach method lists and properties and protocols from categories to a class.
 // Assumes the categories in cats are all loaded and sorted by load order, 
 // oldest categories first.
+
 static void 
 attachCategories(Class cls, category_list *cats, bool flush_caches)
 {
@@ -774,8 +777,17 @@ attachCategories(Class cls, category_list *cats, bool flush_caches)
         malloc(cats->count * sizeof(*proplists));
     protocol_list_t **protolists = (protocol_list_t **)
         malloc(cats->count * sizeof(*protolists));
-
+#pragma warning 最新（最后加入编译）的categories排在二维数组前面。。
     // Count backwards through cats to get newest categories first
+    //。cats = [category1,category2,category3,category4]
+    //  ⬇️
+    // category4 ，category3 ，category2， category1
+    //  ⬇️
+    // prepareMethodLists 方法 按SEL地址升序排序
+    
+    
+    
+    
     int mcount = 0;
     int propcount = 0;
     int protocount = 0;
@@ -804,7 +816,10 @@ attachCategories(Class cls, category_list *cats, bool flush_caches)
 
     auto rw = cls->data();
 
+#pragma warning 分类方法排序
+    // Sort by selector address.
     prepareMethodLists(cls, mlists, mcount, NO, fromBundle);
+#pragma warning 排序结束之后插入 rw
     rw->methods.attachLists(mlists, mcount);
     free(mlists);
     if (flush_caches  &&  mcount > 0) flushCaches(cls);
