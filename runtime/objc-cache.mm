@@ -526,6 +526,8 @@ bucket_t * cache_t::find(cache_key_t k, id receiver)
     assert(k != 0);
 
     bucket_t *b = buckets();
+    // 下标 10     m = 10 -1
+    // m 等于以缓存方法总数 - 1
     mask_t m = mask();
     mask_t begin = cache_hash(k, m);
     mask_t i = begin;

@@ -6,11 +6,21 @@
 //
 
 #import <Foundation/Foundation.h>
+@interface Dog : NSObject
+- (void)run;
+@end
+@implementation Dog
+
+- (void)run {
+    NSLog(@"run");
+}
+
+@end
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // insert code here...
-        NSLog(@"Hello, World!");
+        
     }
     return 0;
 }
