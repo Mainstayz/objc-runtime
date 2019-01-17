@@ -29,9 +29,13 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // insert code here...
-        Foo *f = [Foo new];
-        [f hello];
-        [f hello];
+        Foo *f = [Foo alloc];
+//        [f hello];
+//        [f hello];
+        
+//        if (!obj) return nil;
+//        obj->initInstanceIsa(cls, hasCxxDtor);
+
         
     }
     return 0;

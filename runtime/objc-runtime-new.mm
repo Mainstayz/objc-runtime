@@ -777,7 +777,7 @@ attachCategories(Class cls, category_list *cats, bool flush_caches)
         malloc(cats->count * sizeof(*proplists));
     protocol_list_t **protolists = (protocol_list_t **)
         malloc(cats->count * sizeof(*protolists));
-#pragma warning 最新（最后加入编译）的categories排在二维数组前面。。
+#warning 最新（最后加入编译）的categories排在二维数组前面。。
     // Count backwards through cats to get newest categories first
     //。cats = [category1,category2,category3,category4]
     //  ⬇️
@@ -816,10 +816,10 @@ attachCategories(Class cls, category_list *cats, bool flush_caches)
 
     auto rw = cls->data();
 
-#pragma warning 分类方法排序
+#warning 分类方法排序
     // Sort by selector address.
     prepareMethodLists(cls, mlists, mcount, NO, fromBundle);
-#pragma warning 排序结束之后插入 rw
+#warning 排序结束之后插入 rw
     rw->methods.attachLists(mlists, mcount);
     free(mlists);
     if (flush_caches  &&  mcount > 0) flushCaches(cls);
@@ -6514,7 +6514,7 @@ objc_constructInstance(Class cls, void *bytes)
 * fixme
 * Locking: none
 **********************************************************************/
-
+#warning 最终调用 class_createInstance 创建实例
 static __attribute__((always_inline)) 
 id
 _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone, 
@@ -6528,15 +6528,18 @@ _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone,
     // Read class's info bits all at once for performance
     bool hasCxxCtor = cls->hasCxxCtor();
     bool hasCxxDtor = cls->hasCxxDtor();
-    bool fast = cls->canAllocNonpointer();
-
+    bool fast = cls->canAllocNonpointer(); // true
+    
+    // CF requires all objects be at least 16 bytes.
     size_t size = cls->instanceSize(extraBytes);
     if (outAllocatedSize) *outAllocatedSize = size;
 
     id obj;
     if (!zone  &&  fast) {
+#warning 1. 申请内存创建实例
         obj = (id)calloc(1, size);
         if (!obj) return nil;
+#warning 2. 初始化 isa 指针
         obj->initInstanceIsa(cls, hasCxxDtor);
     } 
     else {
@@ -6660,6 +6663,7 @@ object_copyFromZone(id oldObj, size_t extraBytes, void *zone)
 * Removes associative references.
 * Returns `obj`. Does nothing if `obj` is nil.
 **********************************************************************/
+#warning 对象析构
 void *objc_destructInstance(id obj) 
 {
     if (obj) {
@@ -6668,6 +6672,7 @@ void *objc_destructInstance(id obj)
         bool assoc = obj->hasAssociatedObjects();
 
         // This order is important.
+        // 沿着继承链调用析构函数
         if (cxx) object_cxxDestruct(obj);
         if (assoc) _object_remove_assocations(obj);
         obj->clearDeallocating();
