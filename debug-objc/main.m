@@ -32,6 +32,11 @@ int main(int argc, const char * argv[]) {
         Foo *f = [Foo new];
         [f hello];
         [f hello];
+        void (^testblock)(void) = ^(){
+            NSLog(@"Hello world!");
+        };
+        
+        
         
     }
     return 0;
