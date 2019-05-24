@@ -29,7 +29,7 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // insert code here...
-        Foo *f = [Foo new];
+        Foo *f = [Foo alloc];
         [f hello];
         [f hello];
         void (^testblock)(void) = ^(){
@@ -37,6 +37,10 @@ int main(int argc, const char * argv[]) {
         };
         
         
+        
+//        if (!obj) return nil;
+//        obj->initInstanceIsa(cls, hasCxxDtor);
+
         
     }
     return 0;

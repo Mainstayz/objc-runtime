@@ -6530,7 +6530,7 @@ objc_constructInstance(Class cls, void *bytes)
 * fixme
 * Locking: none
 **********************************************************************/
-
+#warning 最终调用 class_createInstance 创建实例
 static __attribute__((always_inline)) 
 id
 _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone, 
@@ -6544,15 +6544,18 @@ _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone,
     // Read class's info bits all at once for performance
     bool hasCxxCtor = cls->hasCxxCtor();
     bool hasCxxDtor = cls->hasCxxDtor();
-    bool fast = cls->canAllocNonpointer();
-
+    bool fast = cls->canAllocNonpointer(); // true
+    
+    // CF requires all objects be at least 16 bytes.
     size_t size = cls->instanceSize(extraBytes);
     if (outAllocatedSize) *outAllocatedSize = size;
 
     id obj;
     if (!zone  &&  fast) {
+#warning 1. 申请内存创建实例
         obj = (id)calloc(1, size);
         if (!obj) return nil;
+#warning 2. 初始化 isa 指针
         obj->initInstanceIsa(cls, hasCxxDtor);
     } 
     else {
@@ -6676,6 +6679,7 @@ object_copyFromZone(id oldObj, size_t extraBytes, void *zone)
 * Removes associative references.
 * Returns `obj`. Does nothing if `obj` is nil.
 **********************************************************************/
+#warning 对象析构
 void *objc_destructInstance(id obj) 
 {
     if (obj) {
@@ -6684,6 +6688,7 @@ void *objc_destructInstance(id obj)
         bool assoc = obj->hasAssociatedObjects();
 
         // This order is important.
+        // 沿着继承链调用析构函数
         if (cxx) object_cxxDestruct(obj);
         if (assoc) _object_remove_assocations(obj);
         obj->clearDeallocating();

@@ -1747,6 +1747,7 @@ callAlloc(Class cls, bool checkNil, bool allocWithZone=false)
         }
         else {
             // Has ctor or raw isa or something. Use the slower path.
+            // !!!:最终走到这里
             id obj = class_createInstance(cls, 0);
             if (slowpath(!obj)) return callBadAllocHandler(cls);
             return obj;
@@ -1759,7 +1760,7 @@ callAlloc(Class cls, bool checkNil, bool allocWithZone=false)
     return [cls alloc];
 }
 
-
+#warning [cls allocWithZone:nil]
 // Base class implementation of +alloc. cls is not nil.
 // Calls [cls allocWithZone:nil].
 id
@@ -2290,7 +2291,7 @@ void arr_init(void)
 - (NSUInteger)retainCount {
     return ((id)self)->rootRetainCount();
 }
-
+#warning 对象初始化
 + (id)alloc {
     return _objc_rootAlloc(self);
 }
@@ -2314,6 +2315,7 @@ void arr_init(void)
 }
 
 
+#warning dealloc
 // Replaced by NSZombies
 - (void)dealloc {
     _objc_rootDealloc(self);

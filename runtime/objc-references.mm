@@ -313,6 +313,7 @@ void _object_set_associative_reference(id object, void *key, id value, uintptr_t
     if (old_association.hasValue()) ReleaseValue()(old_association);
 }
 
+#warning 移除关联对象
 void _object_remove_assocations(id object) {
     vector< ObjcAssociation,ObjcAllocator<ObjcAssociation> > elements;
     {
