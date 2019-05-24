@@ -179,6 +179,9 @@ const uintptr_t objc_debug_isa_magic_value = 0;
 * A table of all classes (and metaclasses) which have been allocated
 * with objc_allocateClassPair.
 **********************************************************************/
+
+//MARK: 存储所有的class
+
 static NXHashTable *allocatedClasses = nil;
 
 
@@ -237,6 +240,8 @@ void protocol_t::setFixedUp() {
     flags = (flags & ~PROTOCOL_FIXED_UP_MASK) | fixed_up_protocol;
 }
 
+#warning begin ----
+
 
 method_list_t **method_array_t::endCategoryMethodLists(Class cls) 
 {
@@ -250,11 +255,12 @@ method_list_t **method_array_t::endCategoryMethodLists(Class cls)
         return mlistsEnd;
     }
     
-    // Have base methods. Category methods are 
+    // Have base methods. Category methods are
     // everything except the last method list.
     return mlistsEnd - 1;
 }
 
+//MARK: SEL 转换 C f字符串
 static const char *sel_cname(SEL sel)
 {
     return (const char *)(void *)sel;
@@ -272,7 +278,7 @@ static void try_free(const void *p)
     if (p && malloc_size(p)) free((void *)p);
 }
 
-
+//MARK:
 static void (*classCopyFixupHandler)(Class _Nonnull oldClass,
                                      Class _Nonnull newClass);
 
@@ -347,6 +353,8 @@ void *object_getIndexedIvars(id obj)
 * Reallocates rw->ro if necessary to make it writeable.
 * Locking: runtimeLock must be held by the caller.
 **********************************************************************/
+//MARK: 将ro变成writeable
+
 static class_ro_t *make_ro_writeable(class_rw_t *rw)
 {
     runtimeLock.assertLocked();
@@ -489,6 +497,8 @@ static bool isKnownClass(Class cls) {
 * automatically adds the metaclass of the class as well.
 * Locking: runtimeLock must be held by the caller.
 **********************************************************************/
+//MARK: 将类加入到全局类表中
+
 static void addClassTableEntry(Class cls, bool addMeta = true) {
     runtimeLock.assertLocked();
 
@@ -682,6 +692,8 @@ static bool isBundleClass(Class cls)
 }
 
 
+//MARK: 通过方法名进行排序
+
 static void 
 fixupMethodList(method_list_t *mlist, bool bundleCopy, bool sort)
 {
@@ -761,7 +773,7 @@ prepareMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 // Attach method lists and properties and protocols from categories to a class.
 // Assumes the categories in cats are all loaded and sorted by load order, 
 // oldest categories first.
-
+//MARK: 重点 🌿，如何向一个类中注入分类
 static void 
 attachCategories(Class cls, category_list *cats, bool flush_caches)
 {
@@ -771,31 +783,32 @@ attachCategories(Class cls, category_list *cats, bool flush_caches)
     bool isMeta = cls->isMetaClass();
 
     // fixme rearrange to remove these intermediate allocations
+    // 方法列表
     method_list_t **mlists = (method_list_t **)
         malloc(cats->count * sizeof(*mlists));
+    // 属性列表
     property_list_t **proplists = (property_list_t **)
         malloc(cats->count * sizeof(*proplists));
+    // 协议列表
     protocol_list_t **protolists = (protocol_list_t **)
         malloc(cats->count * sizeof(*protolists));
-#warning 最新（最后加入编译）的categories排在二维数组前面。。
+    
+#pragma warning 最新（最后加入编译）的categories排在二维数组前面。。
+    
     // Count backwards through cats to get newest categories first
     //。cats = [category1,category2,category3,category4]
     //  ⬇️
     // category4 ，category3 ，category2， category1
-    //  ⬇️
-    // prepareMethodLists 方法 按SEL地址升序排序
-    
-    
-    
-    
     int mcount = 0;
     int propcount = 0;
     int protocount = 0;
     int i = cats->count;
     bool fromBundle = NO;
+    
+    // 逆序从cats获取所有的category,
     while (i--) {
         auto& entry = cats->list[i];
-
+        // 获取方法列表
         method_list_t *mlist = entry.cat->methodsForMeta(isMeta);
         if (mlist) {
             mlists[mcount++] = mlist;
@@ -815,13 +828,16 @@ attachCategories(Class cls, category_list *cats, bool flush_caches)
     }
 
     auto rw = cls->data();
-
-#warning 分类方法排序
+    //  ⬇️
+    // prepareMethodLists 方法 按SEL地址升序排序
+    // MARK: 分类方法排序
     // Sort by selector address.
     prepareMethodLists(cls, mlists, mcount, NO, fromBundle);
-#warning 排序结束之后插入 rw
+    // MARK: 方法排序结束之后插入 rw
+    
     rw->methods.attachLists(mlists, mcount);
     free(mlists);
+    // 刷新缓存
     if (flush_caches  &&  mcount > 0) flushCaches(cls);
 
     rw->properties.attachLists(proplists, propcount);

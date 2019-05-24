@@ -293,8 +293,11 @@ typedef uintptr_t protocol_ref_t;  // protocol_t *, but unremapped
 
 #define PROTOCOL_FIXED_UP_MASK (PROTOCOL_FIXED_UP_1 | PROTOCOL_FIXED_UP_2)
 
+#warning 协议结构体
+
 struct protocol_t : objc_object {
     const char *mangledName;
+    // tableDelegate 包含有 uiscrollViewDelegate
     struct protocol_list_t *protocols;
     method_list_t *instanceMethods;
     method_list_t *classMethods;
@@ -340,9 +343,13 @@ struct protocol_t : objc_object {
     }
 };
 
+#warning 协议列表
+
 struct protocol_list_t {
     // count is 64-bit by accident. 
     uintptr_t count;
+    
+    // 数组结构
     protocol_ref_t list[0]; // variable-size
 
     size_t byteSize() const {

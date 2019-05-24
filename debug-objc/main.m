@@ -32,6 +32,11 @@ int main(int argc, const char * argv[]) {
         Foo *f = [Foo alloc];
         [f hello];
         [f hello];
+        void (^testblock)(void) = ^(){
+            NSLog(@"Hello world!");
+        };
+        
+        
         
 //        if (!obj) return nil;
 //        obj->initInstanceIsa(cls, hasCxxDtor);
