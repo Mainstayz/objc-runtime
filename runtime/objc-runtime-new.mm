@@ -2287,7 +2287,7 @@ bool mustReadClasses(header_info *hi)
 
 /***********************************************************************
 * readClass
-* Read a class and metaclass as written by a compiler.
+* 	
 * Returns the new class pointer. This could be: 
 * - cls
 * - nil  (cls has a missing weak-linked superclass)

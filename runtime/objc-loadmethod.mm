@@ -306,8 +306,11 @@ static bool call_category_loads(void)
 /***********************************************************************
 * call_load_methods
 * Call all pending class and category +load methods.
-* Class +load methods are called superclass-first. 
+ --> 调用 所有挂起类和分类的 +load 方法
+* Class +load methods are called superclass-first.
+ --> 父类先于子类调用 +load 方法
 * Category +load methods are not called until after the parent class's +load.
+ --> 在父类加载 +load 之后才会调用 分类 + load 方法。
 * 
 * This method must be RE-ENTRANT, because a +load could trigger 
 * more image mapping. In addition, the superclass-first ordering 
