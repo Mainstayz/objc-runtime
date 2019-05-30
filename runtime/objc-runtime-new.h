@@ -1439,7 +1439,7 @@ foreach_realized_class_and_subclass_2(Class top, unsigned& count,
             _objc_fatal("Memory corruption in class list.");
         }
         if (!code(cls)) break;
-
+        // 深度优先
         if (cls->data()->firstSubclass) {
             cls = cls->data()->firstSubclass;
         } else {
