@@ -169,7 +169,7 @@
 		83F4B52815E843B100E0926F /* NSObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 83F4B52615E843B100E0926F /* NSObjCRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		83F4B52915E843B100E0926F /* NSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 83F4B52715E843B100E0926F /* NSObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		83F550E0155E030800E95D3B /* objc-cache-old.mm in Sources */ = {isa = PBXBuildFile; fileRef = 83F550DF155E030800E95D3B /* objc-cache-old.mm */; };
-		85F51F7B22A0262D00CD3F90 /* NSObject+Runtime.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85F51F7A22A0262D00CD3F90 /* NSObject+Runtime.mm */; };
+		85F51F9422A1979900CD3F90 /* OCRuntime.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85F51F9322A1979900CD3F90 /* OCRuntime.mm */; };
 		87BB4EA70EC39854005D08E1 /* objc-probes.d in Sources */ = {isa = PBXBuildFile; fileRef = 87BB4E900EC39633005D08E1 /* objc-probes.d */; };
 		9672F7EE14D5F488007CEC96 /* NSObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9672F7ED14D5F488007CEC96 /* NSObject.mm */; };
 		BE836E9B22169F0400F38B16 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = BE836E9A22169F0400F38B16 /* main.c */; };
@@ -370,8 +370,8 @@
 		83F4B52615E843B100E0926F /* NSObjCRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSObjCRuntime.h; path = runtime/NSObjCRuntime.h; sourceTree = "<group>"; };
 		83F4B52715E843B100E0926F /* NSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSObject.h; path = runtime/NSObject.h; sourceTree = "<group>"; };
 		83F550DF155E030800E95D3B /* objc-cache-old.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "objc-cache-old.mm"; path = "runtime/objc-cache-old.mm"; sourceTree = "<group>"; };
-		85F51F7922A0262D00CD3F90 /* NSObject+Runtime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Runtime.h"; sourceTree = "<group>"; };
-		85F51F7A22A0262D00CD3F90 /* NSObject+Runtime.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSObject+Runtime.mm"; sourceTree = "<group>"; };
+		85F51F9222A18BA300CD3F90 /* OCRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCRuntime.h; sourceTree = "<group>"; };
+		85F51F9322A1979900CD3F90 /* OCRuntime.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OCRuntime.mm; sourceTree = "<group>"; };
 		87BB4E900EC39633005D08E1 /* objc-probes.d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.dtrace; name = "objc-probes.d"; path = "runtime/objc-probes.d"; sourceTree = "<group>"; };
 		9672F7ED14D5F488007CEC96 /* NSObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NSObject.mm; path = runtime/NSObject.mm; sourceTree = "<group>"; };
 		BC8B5D1212D3D48100C78A5B /* libauto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libauto.dylib; path = /usr/lib/libauto.dylib; sourceTree = "<absolute>"; };
@@ -678,8 +678,8 @@
 			isa = PBXGroup;
 			children = (
 				30466D8621B665A500DA7B9D /* main.mm */,
-				85F51F7922A0262D00CD3F90 /* NSObject+Runtime.h */,
-				85F51F7A22A0262D00CD3F90 /* NSObject+Runtime.mm */,
+				85F51F9222A18BA300CD3F90 /* OCRuntime.h */,
+				85F51F9322A1979900CD3F90 /* OCRuntime.mm */,
 			);
 			path = "debug-objc";
 			sourceTree = "<group>";
@@ -1068,7 +1068,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85F51F7B22A0262D00CD3F90 /* NSObject+Runtime.mm in Sources */,
+				85F51F9422A1979900CD3F90 /* OCRuntime.mm in Sources */,
 				30466D8721B665A500DA7B9D /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

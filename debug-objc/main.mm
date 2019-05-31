@@ -6,8 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <objc/runtime.h>
-#import "NSObject+Runtime.h"
+#import "OCRuntime.h"
 @interface Dog : NSObject
 - (void)run;
 @end
@@ -26,9 +25,24 @@
 }
 @end
 
+@interface Foo (xx)
+
+@end
+
+@implementation Foo (xx)
+
+- (void)xxxxx {
+    
+}
+
+@end
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        [Foo PrintInternalClass];
+        Class cls = [Foo class];
+        _objc_class *objcClass = (__bridge _objc_class *)cls;
+        printInstanceMethodNames(objcClass);
+        
     }
     return 0;
 }
