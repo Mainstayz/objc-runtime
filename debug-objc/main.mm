@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OCRuntime.h"
+//#import "OCRuntime.h"
+#include "OCRuntime.h"
 @interface Dog : NSObject
 - (void)run;
 @end

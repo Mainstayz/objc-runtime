@@ -7,6 +7,7 @@
 
 #import <stdio.h>
 #import "OCRuntime.h"
+
 void printInstanceMethodNames(_objc_class *cls) {
     class_rw_t *rw = cls->bits.data();
     method_list_t **method_list = rw->methods.beginLists();
