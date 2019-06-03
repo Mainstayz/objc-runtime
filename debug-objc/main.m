@@ -6,8 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "OCRuntime.h"
-#include "OCRuntime.h"
+#import "OCRuntime.h"
 @interface Dog : NSObject
 - (void)run;
 @end
@@ -41,9 +40,7 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         Class cls = [Foo class];
-        _objc_class *objcClass = (__bridge _objc_class *)cls;
-        printInstanceMethodNames(objcClass);
-        
+        printInstanceMethodNames(cls);
     }
     return 0;
 }
